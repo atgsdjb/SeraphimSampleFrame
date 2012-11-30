@@ -7,6 +7,6 @@ LOCAL_MODULE    := td_math
 ##LV_SRC :=$(wildcard *.c)
 ##LOCAL_SRC_FILES := $(LV_SRC)
 LOCAL_SRC_FILES := td_add.c td_sub.c td_mul.c
-
+LOCAL_CFLAGS := -std=c99
 #include $(BUILD_EXECUTABLE)
 include $(BUILD_STATIC_LIBRARY)

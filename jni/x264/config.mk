@@ -1,7 +1,8 @@
 SRCPATH=$(LOCAL_PATH)
 includedir=${prefix}/include
-X264_CFLAGS :=-Wshadow -O3 -ffast-math -m32  -Wall -I. -I$(SRCPATH) -std=c99 -fomit-frame-pointer -fno-tree-vectorize -fno-zero-initialized-in-bss
-X264_LDFLAGS:=-m32   -Wl,--large-address-aware -lpthread
+X264_CFLAGS :=-Wshadow -O3 -ffast-math   -Wall -I. -I$(SRCPATH) -std=c99 -fomit-frame-pointer -fno-tree-vectorize \
+              -fno-zero-initialized-in-bss 
+X264_LDFLAGS:= -Wl,--large-address-aware -lpthread
 SRCS := common/mc.c common/predict.c common/pixel.c common/macroblock.c \
        common/frame.c common/dct.c common/cpu.c common/cabac.c \
        common/common.c common/osdep.c common/rectangle.c \

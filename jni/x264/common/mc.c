@@ -23,9 +23,9 @@
  * This program is also available under a commercial proprietary license.
  * For more information, contact us at licensing@x264.com.
  *****************************************************************************/
-
+#include<inttypes.h>
 #include "common.h"
-
+#define ARCH_ARM 1
 #if HAVE_MMX
 #include "x86/mc.h"
 #endif
@@ -35,7 +35,7 @@
 #if ARCH_ARM
 #include "arm/mc.h"
 #endif
-
+//typedef  int*  intptr_t;
 
 static inline void pixel_avg( pixel *dst,  intptr_t i_dst_stride,
                               pixel *src1, intptr_t i_src1_stride,
@@ -53,13 +53,11 @@ static inline void pixel_avg( pixel *dst,  intptr_t i_dst_stride,
     }
 }
 
-static inline void pixel_avg_wxh( pixel *dst,  intptr_t i_dst,
+static void pixel_avg_wxh( pixel *dst,  intptr_t i_dst,
                                   pixel *src1, intptr_t i_src1,
-                                  pixel *src2, intptr_t i_src2, int width, int height )
-{	int y;
+                                  pixel *src2, intptr_t i_src2, int width, int height ){
     for( int y = 0; y < height; y++ )
     {
-    	int x;
         for( int x = 0; x < width; x++ )
             dst[x] = ( src1[x] + src2[x] + 1 ) >> 1;
         src1 += i_src1;
@@ -70,7 +68,7 @@ static inline void pixel_avg_wxh( pixel *dst,  intptr_t i_dst,
 
 /* Implicit weighted bipred only:
  * assumes log2_denom = 5, offset = 0, weight1 + weight2 = 64 */
-static inline void pixel_avg_weight_wxh( pixel *dst,  intptr_t i_dst,
+static  void pixel_avg_weight_wxh( pixel *dst,  intptr_t i_dst,
                                          pixel *src1, intptr_t i_src1,
                                          pixel *src2, intptr_t i_src2, int width, int height, int i_weight1 )
 {

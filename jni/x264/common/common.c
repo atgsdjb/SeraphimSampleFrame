@@ -28,7 +28,7 @@
 
 #include <stdarg.h>
 #include <ctype.h>
-
+#include<stddef.h>
 #if HAVE_MALLOC_H
 #include <malloc.h>
 #endif

@@ -70,10 +70,8 @@ static void x264_threadpool_thread( x264_threadpool_t *pool )
         x264_sync_frame_list_push( &pool->done, (void*)job );
     }
 }
-
-int x264_threadpool_init( x264_threadpool_t **p_pool, int threads,
-                          void (*init_func)(void *), void *init_arg )
-{
+typedef void (*temp_f_t)(void*);
+int x264_threadpool_init( x264_threadpool_t **p_pool, int threads,temp_f_t init_func), void *init_arg){
     if( threads <= 0 )
         return -1;
 

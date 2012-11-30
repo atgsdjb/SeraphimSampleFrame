@@ -6,7 +6,7 @@ import android.app.Activity;
 import android.view.Menu;
 
 public class MainActivity extends Activity {
-
+	static private final String TAG="com.seraphim.td"; 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
