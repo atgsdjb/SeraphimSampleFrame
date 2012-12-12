@@ -7,13 +7,14 @@ import org.cybergarage.upnp.ControlPoint;
 import org.cybergarage.upnp.Device;
 import org.cybergarage.upnp.device.DeviceChangeListener;
 import org.cybergarage.upnp.device.NotifyListener;
-import org.cybergarage.upnp.device.SearchListener;
 import org.cybergarage.upnp.device.SearchResponseListener;
 import org.cybergarage.upnp.event.EventListener;
 import org.cybergarage.upnp.ssdp.SSDPPacket;
 import org.cybergarage.xml.parser.XmlPullParser;
 
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 public class UpnpControlPoint implements NotifyListener,
@@ -108,15 +109,20 @@ EventListener
 	public void deviceSearchResponseReceived(SSDPPacket ssdpPacket) {
 		// TODO Auto-generated method stub
 		Log.d(TAG,"deviceSearchResponseReceived");
-		Log.e(TAG,new String(ssdpPacket.getData()));
-		handler.sendEmptyMessage(UpnpActivity.MW_DEVICE_LIST_CHANGE);
-		
 	}
 	@Override
 	public void deviceAdded(Device dev) {
 		// TODO Auto-generated method stub
 		deviceList.add(dev);
-		handler.sendEmptyMessage(UpnpActivity.MW_DEVICE_LIST_CHANGE);
+		Message msg = new Message();
+		msg.what =  UpnpActivity.MW_ADD_DEVICE;
+		Bundle data = new Bundle();
+		String name = dev.getFriendlyName();
+		if(name == null)
+			name ="UNKNOWN  DEVICE";
+		data.putString(UpnpActivity.MK_ADD_DEVICE_NAME, name);
+		msg.setData(data);
+		handler.sendMessage(msg);
 		Log.d(TAG,"deviceAdded");
 	}
 	/**
@@ -128,7 +134,8 @@ EventListener
 		// TODO Auto-generated method stub
 		Log.d(TAG,"deviceRemoved");
 		handler.sendEmptyMessage(UpnpActivity.MW_DEVICE_LIST_CHANGE);
-		deviceList.remove(deviceList.indexOf(dev));
+		
+		deviceList.remove(dev);
 	}
 	/**
 	 * 
