@@ -1,3 +1,3 @@
-include $(all-subdir-makefiles)
+#include $(all-subdir-makefiles)
 ###############################################################
 
