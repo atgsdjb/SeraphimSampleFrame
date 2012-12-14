@@ -2,28 +2,32 @@ package com.seraphim.td.upnp;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.cybergarage.upnp.Device;
 import org.cybergarage.upnp.Service;
 import org.cybergarage.upnp.ServiceList;
 
-import com.seraphim.td.R;
-import com.seraphim.td.SeraphGlobalStore;
-
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.seraphim.td.R;
+import com.seraphim.td.SeraphGlobalStore;
 
 public class DeviceActivity extends Activity {
 	private String name="UNKNOWN  DEVICE";
@@ -39,7 +43,32 @@ public class DeviceActivity extends Activity {
 	private ListView mList;
 	private ArrayAdapter<String> mAdapter;
 	private Dialog mDialog =null;
+	
+	
+	private Service currentService;
+	
 	/***********************************************/
+	/**
+	 * 
+	 * @author root
+	 *
+	 */
+	private class NotivyReceiver extends BroadcastReceiver{
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// TODO Auto-generated method stub
+			String msg = intent.getStringExtra(SeraphGlobalStore.BORADCASET_NOTITY_DATA_KEY);
+			Log.e("com.seraphim.td","--------RECEIVE A MSG---------");
+		}
+		
+	}
+	private NotivyReceiver mNotivyReceiver = new NotivyReceiver();
+	/**
+	 * 
+	 * @author root
+	 *
+	 */
 	private class ListViewOnItemListener implements OnItemClickListener{
 
 		@Override
@@ -47,6 +76,7 @@ public class DeviceActivity extends Activity {
 				int position, long id) {
 			// TODO Auto-generated method stub
 			showDialog(position,"");
+			currentService = serviceList.get(position);
 			return ;
 		}
 		
@@ -69,6 +99,17 @@ public class DeviceActivity extends Activity {
 			case R.id.clos_sulf:
 				mDialog.dismiss();
 				break;
+				
+			case R.id.subscribe:
+				boolean b = mCP.subScribe(currentService);
+				Log.e("com.seraphim.td","SUBSCRIBE ====="+b);
+				break;
+			case R.id.call_play_action:
+				HashMap<String,String> arg = new HashMap<String,String>();
+				arg.put("CurrentURI","http://player.uusee.com/mobile/apple/ipad2/love2.mp4");
+				mCP.sendAction(currentService, "SetAVTransportURI", arg);
+				mDialog.dismiss();
+				break;
 			default:
 				break;
 			}
@@ -87,17 +128,31 @@ public class DeviceActivity extends Activity {
 		mTextView = (TextView)findViewById(R.id.text);
 		titleText = (TextView) findViewById(R.id.text_title);
 		mList = (ListView) findViewById(R.id.list);
-//		mList.setOnItemLongClickListener(mOnLongListener);
 		mList.setOnItemClickListener(mOnListener);
 		mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
 		mList.setAdapter(mAdapter);
+		initElement();
 		initData();
 		initUpnpDevice();
 		initView();
 	}
+	
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		unregisterReceiver(mNotivyReceiver);
+		super.onStop();
+	}
+
+	/**********************************************************/
 	/**
 	 * 
 	 */
+	private void initElement(){
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(SeraphGlobalStore.BROADCASET_REVICE_NOTITY_ACTION);
+		registerReceiver(mNotivyReceiver, filter);
+	}
 	private void initView() {
 		// TODO Auto-generated method stub
 		titleText.setText(name+"#"+location);
@@ -110,6 +165,8 @@ public class DeviceActivity extends Activity {
 	private void showDialog(int id,String title ){
 		Button dialogButtonClose;
 		Button dialogButtonShwoALL;
+		Button dialogCallAction;
+		Button dialogSubscribe;
 		TextView dialogTextTitle;
 		if(mDialog ==null){
 			mDialog = new Dialog(this);
@@ -117,8 +174,13 @@ public class DeviceActivity extends Activity {
 		}
         dialogButtonClose = (Button) mDialog.findViewById(R.id.clos_sulf);
         dialogButtonShwoALL = (Button) mDialog.findViewById(R.id.show_all_action);
+        dialogCallAction = (Button)mDialog.findViewById(R.id.call_play_action);
+        dialogSubscribe=(Button)mDialog.findViewById(R.id.subscribe);
         dialogButtonClose.setOnClickListener(mDialogListener);
         dialogButtonShwoALL.setOnClickListener(mDialogListener);
+        dialogCallAction.setOnClickListener(mDialogListener);
+        dialogSubscribe.setOnClickListener(mDialogListener);
+        
         dialogTextTitle = (TextView)mDialog.findViewById(R.id.text);
         dialogTextTitle.setText(title);
         mDialog.show();

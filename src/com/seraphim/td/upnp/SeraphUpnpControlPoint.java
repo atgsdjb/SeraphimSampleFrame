@@ -2,9 +2,15 @@ package com.seraphim.td.upnp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.cybergarage.upnp.Action;
+import org.cybergarage.upnp.Argument;
+import org.cybergarage.upnp.ArgumentList;
 import org.cybergarage.upnp.ControlPoint;
 import org.cybergarage.upnp.Device;
+import org.cybergarage.upnp.Service;
 import org.cybergarage.upnp.device.DeviceChangeListener;
 import org.cybergarage.upnp.device.NotifyListener;
 import org.cybergarage.upnp.device.SearchResponseListener;
@@ -116,6 +122,29 @@ EventListener
 		}
 		return device;
 	}
+	public boolean  subScribe(Service service){
+		boolean result = false;
+		result = mCP.subscribe(service);
+		return result;
+	}
+	public boolean  sendAction(Service service,String s_action,Map<String,String> m_argumentList){
+		boolean result = false;
+		Action  action = service.getAction(s_action);
+		ArgumentList alist = action.getArgumentList();
+		for(int i = 0;i<alist.size();i++){
+			Argument ag =  (Argument) alist.get(i);
+			Log.e("com.seraphim.td","ARGUMENT===="+ag.getName());
+			
+		}
+		Set<String> vlueNameSet = m_argumentList.keySet();
+		for(String vlueNmae : vlueNameSet){
+			action.getArgument(vlueNmae).setValue(m_argumentList.get(vlueNmae));
+		}
+		result = action.postControlAction();
+		
+		
+		return result;
+	}
 	/******************************            TOOL_METHOD               ****************************************************/
 	void setState(STATE _state){
 		this.state = _state;
@@ -165,17 +194,17 @@ EventListener
 	public void deviceNotifyReceived(SSDPPacket ssdpPacket) {
 		// TODO Auto-generated method stub
 		Intent intent = new Intent();
+		String msg = new String(ssdpPacket.getData());
 		intent.setAction(SeraphGlobalStore.BROADCASET_REVICE_NOTITY_ACTION);
 		intent.putExtra(SeraphGlobalStore.BORADCASET_NOTITY_DATA_KEY, 
-						ssdpPacket.getData());
+						msg);
 		mContext.sendBroadcast(intent);
 	}
 	@Override
 	public void eventNotifyReceived(String uuid, long seq, String varName,
 			String value) {
 		// TODO Auto-generated method stub
-		Log.d(TAG,"eventNotifyReceived");
-		Log.e(TAG,"uuid==="+uuid+"\t varName"+varName);
+		Log.e(TAG,"eventNotifyReceived: uuid="+uuid+"\t seq="+seq+"\tvarName"+varName);
 	}
 	
 	
