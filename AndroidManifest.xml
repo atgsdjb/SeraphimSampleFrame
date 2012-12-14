@@ -27,5 +27,6 @@
             </intent-filter>
         </activity>
         <activity android:name="com.seraphim.td.upnp.UpnpActivity"></activity>
+        <activity android:name="com.seraphim.td.upnp.DeviceActivity"></activity>
     </application>
 </manifest>

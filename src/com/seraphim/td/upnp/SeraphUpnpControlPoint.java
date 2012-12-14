@@ -17,13 +17,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-public class UpnpControlPoint implements NotifyListener,
+public class SeraphUpnpControlPoint implements NotifyListener,
 DeviceChangeListener,
 SearchResponseListener,
 EventListener
 {
 	static private final String  TAG="com.seraphim.td.upnp";
-	static private UpnpControlPoint sulf;
+	static private SeraphUpnpControlPoint sulf;
 	private ControlPoint mCP;
 	private List<Device> deviceList;
 	private XmlPullParser xmlParser;
@@ -41,7 +41,7 @@ EventListener
 	/**
 	 * 
 	 */
-	private UpnpControlPoint(Handler handler){
+	private SeraphUpnpControlPoint(Handler handler){
 		
 		this.handler = handler;
 		deviceList = new ArrayList<Device>();
@@ -58,9 +58,9 @@ EventListener
 	 * 
 	 * @return 
 	 */
-	static public UpnpControlPoint getInstance(Handler handler){
+	static public SeraphUpnpControlPoint getInstance(Handler handler){
 		if(sulf == null){
-			sulf = new UpnpControlPoint(handler);
+			sulf = new SeraphUpnpControlPoint(handler);
 		}
 		return sulf;
 		
@@ -95,6 +95,18 @@ EventListener
 	}
 	public Device getDeviceOfIndex(int index){
 		return deviceList.get(index);
+	}
+	
+	public Device getDeviceOfudn(String udn){
+		Device device = null;
+		for(Device d : deviceList){
+			if(d.getUDN().equals(udn)){
+				device = d;
+				break;
+			}
+				
+		}
+		return device;
 	}
 	/******************************            TOOL_METHOD               ****************************************************/
 	void setState(STATE _state){

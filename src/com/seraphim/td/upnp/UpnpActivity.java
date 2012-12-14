@@ -9,11 +9,14 @@ import com.seraphim.td.R;
 import com.seraphim.td.adapter.SPListAdapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class UpnpActivity extends Activity {
@@ -24,6 +27,10 @@ public class UpnpActivity extends Activity {
 	static public final int MW_DEVICE_LIST_CHANGE = 2001;
 	static public final int MW_ADD_DEVICE = 2002;
 		   static public final String MK_ADD_DEVICE_NAME="device_name"; 
+	static public final String KEY_DEVICE_INDEX="key_device_index";
+	static public final String KEY_DEVICE_UDN ="key_device_udn";
+	static public final String KEY_DEVICE_LOCATION="key_device_location";
+	static public final String KEY_DEVICE_NAME="key_device_name";
 	/**
 	 * FUCTHON   COMPONENT
 	 */
@@ -53,16 +60,38 @@ public class UpnpActivity extends Activity {
 	
 	private ListView mListView;
 	private SPListAdapter<String> mAdapter;
-	private UpnpControlPoint mCP;
+	private SeraphUpnpControlPoint mCP;
 	/*********************		DATA ELEMENT			***************/
-	List<String> 	deviceList = new ArrayList<String>(); 
+	List<String> 	deviceList = new ArrayList<String>();
+	private OnItemClickListener listener = new OnItemClickListener() {
+
+		
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			// TODO Auto-generated method stub
+			Intent intent = new Intent(UpnpActivity.this,DeviceActivity.class);
+			Device device = mCP.getDeviceOfIndex(position);
+			String name = device.getFriendlyName();
+			String udn = device.getUDN();
+			String location = device.getLocation();
+			intent.putExtra(KEY_DEVICE_LOCATION, location);
+			intent.putExtra(KEY_DEVICE_UDN, udn);
+			intent.putExtra(KEY_DEVICE_NAME, name);
+			startActivity(intent);
+			
+		}
+	}; 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_upnp_main);
-		mCP = UpnpControlPoint.getInstance(handler);
+		mCP = SeraphUpnpControlPoint.getInstance(handler);
+		GlobalStore.setCP(mCP);
 		mListView = (ListView) findViewById(R.id.list);
+		mListView.setOnItemClickListener(listener);
 		mAdapter =  new SPListAdapter<String>(this,deviceList );
 		mListView.setAdapter(mAdapter);
 		mCP.start();
@@ -76,10 +105,7 @@ public class UpnpActivity extends Activity {
 			mCP.search();
 			break;
 		case R.id.back:
-		deviceList.add("seraaaa");
-		mAdapter.notifyDataSetInvalidated();
-		mListView.invalidate();
-//			finish();
+			finish();
 			break;
 		default :
 			break;
