@@ -5,12 +5,23 @@
 	<ScrollView 
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content">
+	    <LinearLayout 
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical">
 	   <Button 
 	       android:id="@+id/upnp"
 	       android:layout_width="fill_parent"
 	       android:layout_height="wrap_content"
 	       android:text="@string/goto_UPNP_module"
 	       android:onClick="click"/>
+	    <Button 
+	       android:id="@+id/temp"
+	       android:layout_width="fill_parent"
+	       android:layout_height="wrap_content"
+	       android:text="temp_dialog"
+	       android:onClick="click"/>
+	    </LinearLayout>
 	</ScrollView>
 
 </LinearLayout>
