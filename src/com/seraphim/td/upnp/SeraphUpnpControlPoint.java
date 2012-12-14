@@ -12,9 +12,14 @@ import org.cybergarage.upnp.event.EventListener;
 import org.cybergarage.upnp.ssdp.SSDPPacket;
 import org.cybergarage.xml.parser.XmlPullParser;
 
+import com.seraphim.td.SeraphGlobalStore;
+
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.style.BulletSpan;
 import android.util.Log;
 
 public class SeraphUpnpControlPoint implements NotifyListener,
@@ -27,7 +32,9 @@ EventListener
 	private ControlPoint mCP;
 	private List<Device> deviceList;
 	private XmlPullParser xmlParser;
+	private Context mContext;
 	private Handler handler;
+	private 
 	/**
 	 *自定义内部状态枚举 
 	 */
@@ -41,9 +48,10 @@ EventListener
 	/**
 	 * 
 	 */
-	private SeraphUpnpControlPoint(Handler handler){
+	private SeraphUpnpControlPoint(Context context,Handler handler){
 		
 		this.handler = handler;
+		this.mContext = context;
 		deviceList = new ArrayList<Device>();
 		mCP = new ControlPoint();
 		mCP.addDeviceChangeListener(this);
@@ -58,9 +66,9 @@ EventListener
 	 * 
 	 * @return 
 	 */
-	static public SeraphUpnpControlPoint getInstance(Handler handler){
+	static public SeraphUpnpControlPoint getInstance(Context context,Handler handler){
 		if(sulf == null){
-			sulf = new SeraphUpnpControlPoint(handler);
+			sulf = new SeraphUpnpControlPoint(context, handler);
 		}
 		return sulf;
 		
@@ -156,8 +164,11 @@ EventListener
 	@Override
 	public void deviceNotifyReceived(SSDPPacket ssdpPacket) {
 		// TODO Auto-generated method stub
-		Log.d(TAG,"deviceNotifyReceived");
-		Log.e(TAG,new String(ssdpPacket.getData()));
+		Intent intent = new Intent();
+		intent.setAction(SeraphGlobalStore.BROADCASET_REVICE_NOTITY_ACTION);
+		intent.putExtra(SeraphGlobalStore.BORADCASET_NOTITY_DATA_KEY, 
+						ssdpPacket.getData());
+		mContext.sendBroadcast(intent);
 	}
 	@Override
 	public void eventNotifyReceived(String uuid, long seq, String varName,
