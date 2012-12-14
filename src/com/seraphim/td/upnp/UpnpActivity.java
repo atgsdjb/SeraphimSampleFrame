@@ -6,7 +6,7 @@ import java.util.List;
 import org.cybergarage.upnp.Device;
 
 import com.seraphim.td.R;
-import com.seraphim.td.adapter.SPListAdapter;
+import com.seraphim.td.adapter.SeraphListAdapter;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -59,7 +59,7 @@ public class UpnpActivity extends Activity {
 	};
 	
 	private ListView mListView;
-	private SPListAdapter<String> mAdapter;
+	private SeraphListAdapter<String> mAdapter;
 	private SeraphUpnpControlPoint mCP;
 	/*********************		DATA ELEMENT			***************/
 	List<String> 	deviceList = new ArrayList<String>();
@@ -92,7 +92,7 @@ public class UpnpActivity extends Activity {
 		GlobalStore.setCP(mCP);
 		mListView = (ListView) findViewById(R.id.list);
 		mListView.setOnItemClickListener(listener);
-		mAdapter =  new SPListAdapter<String>(this,deviceList );
+		mAdapter =  new SeraphListAdapter<String>(this,deviceList );
 		mListView.setAdapter(mAdapter);
 		mCP.start();
 		
