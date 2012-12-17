@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <TextView android:id="@+id/text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/show_all_action"
+        android:minWidth="120dp"
+        android:gravity="center"
+        android:text="SHOW_ALL_ACTION"></Button>
+    <Button
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:id="@+id/subscribe"
+       android:minWidth="120dp"
+       android:gravity="center"
+       android:text="SUBSCRIBE"></Button>
+    <Button
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:id="@+id/call_play_action"
+       android:minWidth="120dp"
+       android:gravity="center"
+       android:text="PLAY_ACTION"></Button>
+      <Button
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:id="@+id/clos_sulf"
+       android:minWidth="120dp"
+       android:gravity="center"
+       android:text="CLOSE"></Button>
+</LinearLayout>
