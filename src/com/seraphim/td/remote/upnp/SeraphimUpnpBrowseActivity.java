@@ -5,19 +5,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
-import org.cybergarage.upnp.Action;
 import org.cybergarage.upnp.Device;
 import org.cybergarage.upnp.Service;
-import org.json.JSONObject;
-
 import com.seraphim.td.R;
 import com.seraphim.td.remote.SeraphimGlobal;
-import com.seraphim.td.remote.client.SeraphimDeviceInfo;
-import com.seraphim.td.remote.client.SeraphimJSIntface;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -28,7 +19,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
-import android.os.StrictMode;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -63,7 +53,9 @@ public class SeraphimUpnpBrowseActivity extends Activity implements View.OnClick
 
 	private int wDIP;
 	private int hDIP;
+	@SuppressWarnings("unused")
 	private AudioManager am;
+	@SuppressWarnings("unused")
 	private PowerManager pm;
 	private String currentURL;
 	private String videoURL;

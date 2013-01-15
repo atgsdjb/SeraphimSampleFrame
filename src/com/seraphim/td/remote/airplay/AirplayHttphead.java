@@ -1,7 +1,5 @@
 package com.seraphim.td.remote.airplay;
 
-import android.util.StringBuilderPrinter;
-
 public class AirplayHttphead {
 	static public final String getServerInfo="GET /server-info HTTP/1.1\r\n"+
 			 "X-Apple-Device-ID: 0xdc2b61a0ce79\r\n"+
