@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    <TextView android:id="@+id/msg_text"
+        android:layout_width="fill_parent"
+        android:textSize="20sp" android:text="未选择任何主机"
+        android:layout_height="wrap_content">
+    </TextView>
+    <Button 
+        android:id="@+id/conn_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/string_play">
+    </Button>
+    <Button 
+        android:id="@+id/play_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/string_play">
+    </Button>
+     <Button 
+        android:id="@+id/pash_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/string_pash">
+    </Button>
+    <Button 
+        android:id="@+id/speed_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/string_speed">
+    </Button>
+    <Button 
+        android:id="@+id/bank_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/string_back">
+    </Button>
+    <Button 
+        android:id="@+id/scann_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/string_scann">
+    </Button>
+        <Button 
+        android:id="@+id/stop_scann_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/string_stop_scann">
+    </Button>
+    <ListView 
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:id="@+id/list"></ListView>
+</LinearLayout>

@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
 	<string name="global_button_back">Back</string>
-    <string name="app_name">SeraphSampleFrame</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="goto_UPNP_module">goto UPNP module</string>
     <string name="upnp_button_search">Search</string>
+    <string name="app_name">StudyRemoveClient</string>
+    <string name="string_play">播放</string>
+    <string name="string_pash">暂停</string>
+    <string name="string_speed">快进</string>
+    <string name="string_back">后退</string>
+    <string name="string_scann">扫描设备</string>
+    <string name="string_stop_scann">停止扫描</string>
+    <string name="edit_hint">输入URL</string>
       
 </resources>

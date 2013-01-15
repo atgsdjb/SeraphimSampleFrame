@@ -19,7 +19,13 @@
 	       android:id="@+id/temp"
 	       android:layout_width="fill_parent"
 	       android:layout_height="wrap_content"
-	       android:text="temp_dialog"
+	       android:text="goto_AirPlay_module"
+	       android:onClick="click"/>
+	    <Button 
+	       android:id="@+id/server_client"
+	       android:layout_width="fill_parent"
+	       android:layout_height="wrap_content"
+	       android:text="SERVER-CLIENT"
 	       android:onClick="click"/>
 	    </LinearLayout>
 	</ScrollView>
