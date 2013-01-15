@@ -1,13 +1,14 @@
 package com.seraphim.td;
 
-import com.seraphim.td.upnp.SeraphUpnpControlPoint;
+import com.seraphim.td.remote.upnp.SeraphimUpnpControlPoint;
+
 
 public class SeraphGlobalStore {
-	static public SeraphUpnpControlPoint mCP;
-	static public SeraphUpnpControlPoint getCP(){
+	static public SeraphimUpnpControlPoint mCP;
+	static public SeraphimUpnpControlPoint getCP(){
 		return mCP;
 	}
-	static public void setCP(SeraphUpnpControlPoint cp){
+	static public void setCP(SeraphimUpnpControlPoint cp){
 		mCP = cp;
 	}
 	/**

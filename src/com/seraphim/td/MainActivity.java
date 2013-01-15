@@ -1,13 +1,13 @@
 package com.seraphim.td;
 
 
-import com.seraphim.td.upnp.UpnpActivity;
+
+import com.seraphim.td.remote.upnp.SeraphimUpnpActivity;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
     	int id = view.getId();
     	switch(id){
     	case R.id.upnp:
-    		Intent intent = new Intent(this,UpnpActivity.class);
+    		Intent intent = new Intent(this,SeraphimUpnpActivity.class);
     		startActivity(intent);
     		break;
     	case R.id.temp:
