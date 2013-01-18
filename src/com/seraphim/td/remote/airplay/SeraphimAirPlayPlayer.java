@@ -48,13 +48,22 @@ public class SeraphimAirPlayPlayer extends Activity {
 		int id = view.getId();
 		switch(id){
 		case R.id.play:
-			httpWarp.AirplayCRLPlay("http://player.uusee.com/mobile/apple/ipad2/love2.mp4",0f);
+			httpWarp.airplayCRLPlay("http://player.uusee.com/mobile/apple/ipad2/love2.mp4",0f);
 			break;
 		case R.id.pause:
-			if(addr != null && port != -1){
-				httpWarp.getAirplayServerInfo();
-			}
+			httpWarp.airPlayCRLPause();
 			break;
+		case R.id.speed:
+			httpWarp.airPlayCRLSpeed();
+			break;
+		case R.id.rewind:
+			httpWarp.airPlayCRLRewind();
+			break;
+		case R.id.stop:
+			httpWarp.airPlayCRLStop();
+			break;
+		case R.id.temp:
+			httpWarp.airplayCRLPlay("http://player.uusee.com/mobile/apple/ipad2/love.mp4",0f);
 		default :
 			break;
 		}

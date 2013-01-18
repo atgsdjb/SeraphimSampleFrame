@@ -15,5 +15,29 @@
         android:layout_height="wrap_content"
         android:text="@string/string_pash"
         android:onClick="onClick"/>
+	<Button 
+        android:id="@+id/speed"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="快进30秒"
+        android:onClick="onClick"/>
+	<Button 
+        android:id="@+id/rewind"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="快退30秒"
+        android:onClick="onClick"/>
+	<Button 
+        android:id="@+id/stop"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="停止"
+        android:onClick="onClick"/>
+	<Button 
+        android:id="@+id/temp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="TEMP"
+        android:onClick="onClick"/>
 
 </LinearLayout>

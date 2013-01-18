@@ -20,9 +20,10 @@ import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import android.os.Parcel;
 
 import com.seraphim.td.remote.airplay.mdns.DNSMessage;
+
+import android.os.Parcel;
 
 /**
  * Encapsulate packet details that we are interested in.
