@@ -42,7 +42,7 @@ public class SeraphimDeviceActivity extends Activity {
 	private TextView mTextView;
 //	private TextView titleText;
 	
-	private SeraphimUpnpControlPoint mCP;
+	private SeraphimUpnpControlPoint_temp mCP;
 	private Device mDevice;
 	private ServiceList serverList;
 	private List<Service> serviceList;

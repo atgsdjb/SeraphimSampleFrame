@@ -1,104 +1,165 @@
 package com.seraphim.td.remote;
 
-import com.seraphim.td.R;
-import com.seraphim.td.remote.airplay.SeraphimAirPlayMDns;
-import com.seraphim.td.remote.client.SeraphimClient;
-import com.seraphim.td.remote.upnp.SeraphimUpnpActivity;
+import java.util.ArrayList;
+
+import com.seraphim.td.remote.client.tools.SeraphListAdapter;
+import com.seraphim.td.remote.client.tools.SeraphimArrayAdapter;
+import com.seraphim.td.remote.imp.AbstractDevice;
+import com.seraphim.td.remote.imp.UuseeAddListener;
+import com.seraphim.td.remote.imp.UuseeRemoteWarp;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+import android.widget.Toast;
 
-public class SeraphimRootActivity extends Activity {
+public class SeraphimRootActivity extends Activity implements UuseeAddListener {
 
-	@SuppressWarnings("unused")
+	
+	String videoURL ="";
+	UuseeRemoteWarp root;
+	ListView mListView;
+	Handler mHandler  = new Handler();
+	SeraphListAdapter<AbstractDevice> mAdapter;
 	static private final String TAG="com.seraphim.td"; 
-	private Dialog mDialog;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_main);
-        mDialog = new Dialog(this);
-        Window window = mDialog.getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        mDialog.setContentView(R.layout.layout_upnp_service_op_dialog);
-        Button dialogButtonClose = (Button) mDialog.findViewById(R.id.clos_sulf);
-        Button dialogButtonShwoALL = (Button) mDialog.findViewById(R.id.show_all_action);
-        dialogButtonClose.setOnClickListener(mDialogListener);
-        dialogButtonShwoALL.setOnClickListener(mDialogListener);
-    }
+        mListView = new ListView(this);
+        mAdapter = new SeraphListAdapter<AbstractDevice>(this, new ArrayList<AbstractDevice>());
+        mListView.setAdapter(mAdapter);
+        mListView.setOnItemClickListener(new OnItemClickListener() {
 
-
-    private class DialogListener implements View.OnClickListener{
-
-		@Override
-		public void onClick(View v) {
-			// TODO Auto-generated method stub
-			int id = v.getId();
-			switch(id){
-			case R.id.show_all_action:
-				break;
-			case R.id.clos_sulf:
-				mDialog.dismiss();
-				break;
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				AbstractDevice device = (AbstractDevice) mAdapter.getItem(position);
+				root.bindDevice(device);
 				
-			default:
-				break;
 			}
-		}
-    	
+		});
+        setContentView(mListView);
+        root = new UuseeRemoteWarp(this,this);
+       
     }
-    private DialogListener mDialogListener = new DialogListener();
-    /**
-     * 
-     * @param view
-     */
-    public void click(View view){
-    	int id = view.getId();
-    	Intent intent = null;
-    	switch(id){
-    	case R.id.upnp:
-    		intent = new Intent(this,SeraphimUpnpActivity.class);
-    		startActivity(intent);
-    		break;
-    	
-    	case R.id.temp:
-    		intent = new Intent(this,SeraphimAirPlayMDns.class);
-    		startActivity(intent);
-    		break;
-    	case R.id.server_client:
-    		intent = new Intent(this,SeraphimClient.class);
-    		startActivity(intent);
-    	default :
-    		break;
-    	}
-    	
-    }
+    
+    
+    
+    
+    
+    
+    
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		new Thread(){
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				root.startScan();
+			}
+			
+		}.start();
+	}
+
+
+
+
+
+
+
+	@Override
+	public void onAddDevice(final AbstractDevice device) {
+		// TODO Auto-generated method stub
+		Log.d(TAG,device.toString());
+		mHandler.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				mAdapter.addData(device);
+				mAdapter.notifyDataSetChanged();
+			}
+		});
+		
+	}
+	/*******************MENU***********************/
 	private static final int menuPlay = 1;
 	private static final int menuPush=2;
 	private static final int menuStop=3;
 	private static final int menuSeek=4;
+	private static final int menuResume=5;
+	private static final int menuNone=6;
+	private static final int menuEXNext=7;
+	private static final int menuEXGetCurrentAction = 8;
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
 		menu.add(0, menuPlay, menuPlay, "PLAY");
 		menu.add(0, menuPush, menuPush, "PUSH");
-		menu.add(0, menuPlay, menuStop, "STOP");
-		menu.add(0, menuPlay, menuSeek, "SEEK");
+		menu.add(0, menuStop, menuStop, "STOP");
+		menu.add(0, menuSeek, menuSeek, "SEEK");
+		menu.add(0, menuResume, menuResume, "RESU");
+		menu.add(0, menuNone, menuNone, "None");
+		menu.add(0, menuEXNext, menuEXNext, "Next");
+		menu.add(0,menuEXGetCurrentAction,menuEXGetCurrentAction,"getAction");
+	
 		return super.onCreateOptionsMenu(menu);
 	}
+	
 
 	@Override
-	public boolean onContextItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
-		return super.onContextItemSelected(item);
+		int id = item.getItemId();
+		videoURL="http://player.uusee.com/mobile/apple/ipad2/love2.mp4";
+		switch(id){
+		case menuPlay:
+			if(videoURL != null && videoURL.contains("http")){
+				root.play(videoURL);
+			
+			}else{
+				Toast.makeText(getApplicationContext(),"无法播放,请等待生产正确URL" , Toast.LENGTH_LONG).show();
+			}
+			break;
+		case menuPush:{
+			
+		}
+			
+			break;
+		case menuStop:{
+			root.stop();
+		}
+			break;
+		case menuSeek:{
+			root.seek(10f);
+		}
+			
+			break;
+		
+		default : break;
+		}
+	
+		return super.onOptionsItemSelected(item);
 	}
+
+
+
+
+
+
+
+
 }

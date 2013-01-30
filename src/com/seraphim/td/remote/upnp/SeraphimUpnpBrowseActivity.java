@@ -68,7 +68,7 @@ public class SeraphimUpnpBrowseActivity extends Activity implements View.OnClick
 	private String currentURL;
 	private String videoURL;
 //	
-	private SeraphimUpnpControlPoint mCP = SeraphimGlobal.getCP();
+	private SeraphimUpnpControlPoint_temp mCP = SeraphimGlobal.getCP();
 	private Service mService;
 	private Device mDevice;
 	

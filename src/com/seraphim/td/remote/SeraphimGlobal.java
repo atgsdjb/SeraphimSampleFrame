@@ -1,6 +1,6 @@
 package com.seraphim.td.remote;
 
-import com.seraphim.td.remote.upnp.SeraphimUpnpControlPoint;
+import com.seraphim.td.remote.upnp.SeraphimUpnpControlPoint_temp;
 
 public class SeraphimGlobal {
 	static public int GPORT = 5852;
@@ -33,11 +33,11 @@ public class SeraphimGlobal {
 	static public final String ipadUserAgent ="Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_2 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8H7 Safari/6533.18.5";
 	static public String exJS =null;
 	/*************UPNP GLOBAL DATA**************/
-	static public SeraphimUpnpControlPoint mCP;
-	static public SeraphimUpnpControlPoint getCP(){
+	static public SeraphimUpnpControlPoint_temp mCP;
+	static public SeraphimUpnpControlPoint_temp getCP(){
 		return mCP;
 	}
-	static public void setCP(SeraphimUpnpControlPoint cp){
+	static public void setCP(SeraphimUpnpControlPoint_temp cp){
 		mCP = cp;
 	}
 	static public final String BROADCASET_REVICE_NOTITY_ACTION="com.seraphim.td.broadcaset";

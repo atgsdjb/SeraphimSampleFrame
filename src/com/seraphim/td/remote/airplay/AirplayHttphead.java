@@ -53,6 +53,23 @@ public class AirplayHttphead {
 	 * @param postion
 	 * @return
 	 */
+	
+	static public final String wiplugPauseVideo="GET /pause wiPlug 1.0\r\n"+
+										   "X-WiPlug-Type : video\r\n"+
+										   "X-WiPlug-Adapter: wiplug\r\n"+
+										   "Content-Length: 0\r\n\r\n";
+	
+	
+	static public final String wiplugResumeVideo="GET /resume wiPlug 1.0\r\n"+
+			   								"X-WiPlug-Type : video\r\n"+
+			   								"X-WiPlug-Adapter: wiplug\r\n"+
+			   								"Content-Length: 0\r\n\r\n";
+	
+	static public final String wiplugStopVideo="GET /resume wiPlug 1.0\r\n"+
+				                            "X-WiPlug-Type : video\r\n"+
+				                            "X-WiPlug-Adapter: wiplug\r\n"+
+				                            "Content-Length: 0\r\n\r\n";
+
 	static public String getPlayHead(String local,float postion){
 		String body = String.format(formatPlayBody,local,postion);
 		return String.format(formatPlayHead, body.length(),body);

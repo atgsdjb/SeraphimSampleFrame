@@ -45,7 +45,11 @@ public class AirplayHttpWarp {
 		return codeState == 200;
 	}
 
-	public boolean airplayCRLSeek(long postion){
+	/**
+	 * 未实现
+	 * @return
+	 */
+	public boolean airPlayCRLResume(){
 		return true;
 	}
 	
@@ -53,9 +57,20 @@ public class AirplayHttpWarp {
 		return airPlayPostRate(0);
 	}
 	
+	
+	
+	public boolean airPlayCRLSpeed(float step){
+		
+		return airPlayPostScrub(step);
+	}
 	public boolean airPlayCRLSpeed(){
 		
 		return airPlayPostScrub(10);
+	}
+	
+	public boolean airPlayCRLRewind(float step){
+	
+		return airPlayPostScrub(-step);
 	}
 	
 	public boolean airPlayCRLRewind(){
@@ -68,8 +83,31 @@ public class AirplayHttpWarp {
 		return codeState == 200;
 		
 	}
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean wiplugCRLPause(){
+		String response = transferCmdWitchRead(AirplayHttphead.wiplugPauseVideo);
+		int codeState = getCodeStateformResponse(response);
+		return codeState == 200;
+	}
 	
+	public boolean wiplugCRLResume(){
+		String response = transferCmdWitchRead(AirplayHttphead.wiplugResumeVideo);
+		int codeState = getCodeStateformResponse(response);
+		return codeState == 200;
+	}
+	public boolean wiplugCRLStop(){
+		String response = transferCmdWitchRead(AirplayHttphead.wiplugStopVideo);
+		int codeState = getCodeStateformResponse(response);
+		return codeState == 200;
 	
+	}
+	public boolean  wiplugCRLSeek(float postion){
+		
+		return false;
+	}
 	
 	/**
 	 *   0 <= value <=1  , value=0 is pause , value=0 normal play
@@ -160,15 +198,18 @@ public class AirplayHttpWarp {
   
 		return response;
 	}
+	
 	private int getCodeStateformResponse(String response){
 		int codeState = -1;
-		String[] t_response = response.split("\r\n\r\n");
-		if(t_response.length >=1){
-			String s_responseHead = t_response[0];
-			UuseeResponseHttpHead  responseHead = new UuseeResponseHttpHead(s_responseHead);
-			 codeState = responseHead.getCodeState();
-		}else{
-			Log.e(TAG,"parse sponse hewad error");
+			if(response != null){
+			String[] t_response = response.split("\r\n\r\n");
+			if(t_response.length >=1){
+				String s_responseHead = t_response[0];
+				UuseeResponseHttpHead  responseHead = new UuseeResponseHttpHead(s_responseHead);
+				 codeState = responseHead.getCodeState();
+			}else{
+				Log.e(TAG,"parse sponse hewad error");
+			}
 		}
 		return codeState;
 	}

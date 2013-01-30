@@ -5,28 +5,23 @@
 	<ScrollView 
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content">
-	    <LinearLayout 
+	  <LinearLayout 
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:orientation="vertical">
 	   <Button 
-	       android:id="@+id/upnp"
+	       android:id="@+id/go_to_remote"
 	       android:layout_width="fill_parent"
 	       android:layout_height="wrap_content"
-	       android:text="@string/goto_UPNP_module"
+	       android:text="@string/go_to_remote"
 	       android:onClick="click"/>
 	    <Button 
 	       android:id="@+id/temp"
 	       android:layout_width="fill_parent"
 	       android:layout_height="wrap_content"
-	       android:text="goto_AirPlay_module"
+	       android:text="TEMP"
 	       android:onClick="click"/>
-	    <Button 
-	       android:id="@+id/server_client"
-	       android:layout_width="fill_parent"
-	       android:layout_height="wrap_content"
-	       android:text="SERVER-CLIENT"
-	       android:onClick="click"/>
+	
 	    </LinearLayout>
 	</ScrollView>
 

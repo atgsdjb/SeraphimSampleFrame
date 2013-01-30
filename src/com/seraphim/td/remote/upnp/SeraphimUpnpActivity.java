@@ -58,7 +58,7 @@ public class SeraphimUpnpActivity extends Activity {
 	
 	private ListView mListView;
 	private SeraphListAdapter<String> mAdapter;
-	private SeraphimUpnpControlPoint mCP;
+	private SeraphimUpnpControlPoint_temp mCP;
 	/*********************		DATA ELEMENT			***************/
 	List<String> 	deviceList = new ArrayList<String>();
 	private OnItemClickListener listener = new OnItemClickListener() {
@@ -89,7 +89,7 @@ public class SeraphimUpnpActivity extends Activity {
 		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
         StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectLeakedSqlLiteObjects().detectLeakedClosableObjects().penaltyLog().penaltyDeath().build());
 		setContentView(R.layout.activity_upnp_main);
-		mCP = SeraphimUpnpControlPoint.getInstance(this,handler);
+		mCP = SeraphimUpnpControlPoint_temp.getInstance(this,handler);
 		SeraphimGlobal.setCP(mCP);
 		mListView = (ListView) findViewById(R.id.list);
 		mListView.setOnItemClickListener(listener);
