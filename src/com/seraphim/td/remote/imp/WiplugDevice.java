@@ -10,6 +10,14 @@ public class WiplugDevice extends AirplayDevice {
 		super(root, _name,DeviceType.Wiplug, addr, port);
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+	@Override
+	public boolean play(String url, float postion) {
+		// TODO Auto-generated method stub
+		return httpWarp.wiplugCRLPLay(url);
+	}
+
 
 	@Override
 	public boolean stop() {
@@ -32,7 +40,7 @@ public class WiplugDevice extends AirplayDevice {
 	@Override
 	public boolean seek(SeekType type, float step) {
 		// TODO Auto-generated method stub
-		return super.seek(type, step);
+		return httpWarp.wiplugCRLSeek(step);
 	}
 	
 	

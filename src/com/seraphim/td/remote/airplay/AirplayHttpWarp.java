@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 
 
 
+
 import android.annotation.SuppressLint;
 import android.util.Log;
 
@@ -87,26 +88,33 @@ public class AirplayHttpWarp {
 	 * 
 	 * @return
 	 */
+	public boolean wiplugCRLPLay(String url){
+		String head = String.format(AirplayHttphead.wiplugPlayVideoFormt,url);
+		transferCmdWitchRead(head);
+		return true;
+	}
 	public boolean wiplugCRLPause(){
-		String response = transferCmdWitchRead(AirplayHttphead.wiplugPauseVideo);
-		int codeState = getCodeStateformResponse(response);
-		return codeState == 200;
+		/*String response = */transferCmdWitchRead(AirplayHttphead.wiplugPauseVideo);
+//		int codeState = getCodeStateformResponse(response);
+		return true;
 	}
 	
 	public boolean wiplugCRLResume(){
 		String response = transferCmdWitchRead(AirplayHttphead.wiplugResumeVideo);
-		int codeState = getCodeStateformResponse(response);
-		return codeState == 200;
+		/*int codeState = getCodeStateformResponse(response);*/
+		return true;
 	}
 	public boolean wiplugCRLStop(){
 		String response = transferCmdWitchRead(AirplayHttphead.wiplugStopVideo);
-		int codeState = getCodeStateformResponse(response);
-		return codeState == 200;
+		/*int codeState = */getCodeStateformResponse(response);
+		return true;
 	
 	}
 	public boolean  wiplugCRLSeek(float postion){
-		
-		return false;
+		/*String response = */wigPlugSeek(50f);
+//		Log.e(TAG,"response =====" + response);
+//		return response != null;
+		return true;
 	}
 	
 	/**
@@ -195,6 +203,82 @@ public class AirplayHttpWarp {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	};
+  
+		return response;
+	}
+	
+	synchronized private String wigPlugSeek(float step){
+		String response = null;
+        try { 
+           Socket socket = new Socket(); 
+           InetSocketAddress _addr =  new InetSocketAddress(addr,port);
+           socket.connect(_addr);
+           InputStream in = socket.getInputStream();
+           StringBuffer sb = new StringBuffer(8096); 
+           byte[]  t_buff= new byte[2048];
+//           Thread.sleep(500);
+           
+           while(sb.length()==0  ){
+	           while(in.available() >0){
+	        	   in.read(t_buff);
+	        	   sb.append(new String(t_buff));
+	           }
+	           wait(200);
+           }
+           response = sb.toString();
+           if(response != null && !response.trim().equals("")){
+        	   String[] t_arry = response.split("\r\n\r\n");
+        	   String c_str = null;
+        	   for(int i = t_arry.length -1;i>=0;i-- ){
+        		   if(t_arry[i].contains("status")){
+        			   c_str = t_arry[i];
+        			   break;
+        		   }
+        			   
+        	   }
+//        	   String   c_str = t_arry[t_arry.length-1];
+        	   String[] t_arry2 = c_str.split("\r\n");
+        	   //单位毫秒
+        	   float videoDuration = -1;
+        	   float videoPostion = -1;
+        	   for(String s : t_arry2){
+        		   if(s.contains("Duration")){
+        			   String v1 = s.split(":")[1];
+        			   videoDuration = Float.valueOf(v1);
+        		   }else if(s.contains("Position")){
+        			   String v1 = s.split(":")[1];
+        			   videoPostion = Float.valueOf(v1);
+        		   }else{
+        			   continue;
+        		   }
+        		   if(videoDuration != -1 && videoPostion != -1){
+        			   break;
+        		   }
+        		   
+        	   }
+//        	   Log.d()
+        	   float postion = videoPostion +step*1000;
+        	   if(postion <0) 
+        		   postion = 0;
+        	   if(postion > videoDuration)
+        		   postion = videoDuration;
+//        		   postion = step*1000;
+        	   String head = String.format(AirplayHttphead.wiplugSeekVideoFormt, (int)postion);
+        	   PrintWriter out = new PrintWriter(socket.getOutputStream(), true); 
+               out.write(head);
+               out.flush();
+               Log.e(TAG,"seek ok  postion==="+postion+"\t duration==="+videoDuration);
+           }
+          Log.d("","");
+          socket.close();
+       } catch (UnknownHostException e) {
+    	   Log.e(TAG,"UnknownHostException :" + e.getMessage());
+       } catch (IOException e) { 
+    	   Log.e(TAG,"IOException : "+e.getMessage());
+       }catch (Exception e) {
+		// TODO: handle exception
+    	   Log.e(TAG,e.getMessage());
+       }
   
 		return response;
 	}

@@ -205,6 +205,7 @@ EventListener
 	@Override
 	public void deviceSearchResponseReceived(SSDPPacket ssdpPacket) {
 		// TODO Auto-generated method stub
+		mCP.addDevice(ssdpPacket);
 		Log.d(TAG,"deviceSearchResponseReceived");
 	}
 	@Override
