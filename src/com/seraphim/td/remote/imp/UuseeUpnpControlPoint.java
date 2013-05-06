@@ -17,7 +17,7 @@ import org.cybergarage.upnp.device.NotifyListener;
 import org.cybergarage.upnp.device.SearchResponseListener;
 import org.cybergarage.upnp.event.EventListener;
 import org.cybergarage.upnp.ssdp.SSDPPacket;
-import org.cybergarage.xml.parser.XmlPullParser;
+//import org.cybergarage.xml.parser.XmlPullParser;
 
 
 import android.util.Log;
@@ -31,7 +31,7 @@ EventListener
 	static private UuseeUpnpControlPoint sulf;
 	private ControlPoint mCP;
 	private List<Device> deviceList;
-	private XmlPullParser xmlParser;
+//	private XmlPullParser xmlParser;
 	UuseeAddListener listener;
 	UuseeRemoteWarp root;
 	/**

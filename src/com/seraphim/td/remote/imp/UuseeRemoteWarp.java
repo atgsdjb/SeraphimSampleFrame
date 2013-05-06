@@ -2,8 +2,6 @@ package com.seraphim.td.remote.imp;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 import android.content.Context;
 
 import com.seraphim.td.remote.imp.AbstractRemoteControl.SeekType;
@@ -51,6 +49,11 @@ public class UuseeRemoteWarp {
 			return false;
 		}
 		return device.resume();
+	}
+	public boolean pause(){
+		if(device == null)
+			return false;
+		return device.pause();
 	}
 	/**
 	 * 

@@ -18,22 +18,26 @@ public class UuseeResponseHttpHead {
 	private String xAppleSessionID;
 	
 	public UuseeResponseHttpHead(String buff){
-		int index = buff.indexOf("\n");
-		String state = null;
-		String para = null;
-		if(index >0 && index <= buff.length()){
-			state = buff.substring(0, index);
-			String l_state_a[] = state.split(" ");
-			if(l_state_a.length == 3){
-				this.codeState = Integer.valueOf(l_state_a[1]);
-				this.stateStr = l_state_a[2];
-				para = buff.substring(index+1);
-				if(para != null)
-					process(para);
-			}else{
+		try{
+			int index = buff.indexOf("\n");
+			String state = null;
+			String para = null;
+			if(index >0 && index <= buff.length()){
+				state = buff.substring(0, index);
+				String l_state_a[] = state.split(" ");
+				if(l_state_a.length == 3){
+					this.codeState = Integer.valueOf(l_state_a[1]);
+					this.stateStr = l_state_a[2];
+					para = buff.substring(index+1);
+					if(para != null)
+						process(para);
+				}else{
+					
+				}
 				
 			}
-			
+		}catch (Exception e) {
+			// TODO: handle exception
 		}
 		
 	}

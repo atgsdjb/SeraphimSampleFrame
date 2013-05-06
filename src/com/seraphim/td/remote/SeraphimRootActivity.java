@@ -2,8 +2,8 @@ package com.seraphim.td.remote;
 
 import java.util.ArrayList;
 
+import com.seraphim.td.R;
 import com.seraphim.td.remote.client.tools.SeraphListAdapter;
-import com.seraphim.td.remote.client.tools.SeraphimArrayAdapter;
 import com.seraphim.td.remote.imp.AbstractDevice;
 import com.seraphim.td.remote.imp.UuseeAddListener;
 import com.seraphim.td.remote.imp.UuseeRemoteWarp;
@@ -11,6 +11,7 @@ import com.seraphim.td.remote.imp.UuseeRemoteWarp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +25,7 @@ import android.widget.Toast;
 public class SeraphimRootActivity extends Activity implements UuseeAddListener {
 
 	
-	String videoURL ="";
+	String videoURL ="http://player.uusee.com/mobile/apple/test_video/test3.mp4";
 	UuseeRemoteWarp root;
 	ListView mListView;
 	Handler mHandler  = new Handler();
@@ -34,7 +35,10 @@ public class SeraphimRootActivity extends Activity implements UuseeAddListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mListView = new ListView(this);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        setContentView(R.layout.layout_seraphim_root);
+        mListView = (ListView)findViewById(R.id.list);
         mAdapter = new SeraphListAdapter<AbstractDevice>(this, new ArrayList<AbstractDevice>());
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new OnItemClickListener() {
@@ -48,7 +52,6 @@ public class SeraphimRootActivity extends Activity implements UuseeAddListener {
 				
 			}
 		});
-        setContentView(mListView);
         root = new UuseeRemoteWarp(this,this);
        
     }
@@ -72,8 +75,17 @@ public class SeraphimRootActivity extends Activity implements UuseeAddListener {
 			}
 			
 		}.start();
+		
+	
+		
+		
 	}
 
+	
+	
+	
+	
+	
 
 
 
@@ -154,8 +166,24 @@ public class SeraphimRootActivity extends Activity implements UuseeAddListener {
 	
 		return super.onOptionsItemSelected(item);
 	}
-
-
+	public void play(View view){
+		root.play(videoURL);
+	}
+	public void stop(View view){
+		root.stop();
+	}
+	public void resume(View view){
+		root.resume();
+	}
+	public void pause(View view){
+		root.pause();
+	}
+	public void seekN(View view){
+		root.seek(10f);
+	}
+	public void  seekP(View view){
+		root.seek(-10f);
+	}
 
 
 
